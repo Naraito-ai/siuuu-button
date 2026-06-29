@@ -105,6 +105,13 @@
 
             const grid = document.querySelector(".sound-grid");
 
+            // Pre-create all audio objects immediately on load to bypass autoplay blocks
+            const audioObjects = {};
+            sounds.forEach(name => {
+                audioObjects[name] = new Audio(`sounds/${name}`);
+                audioObjects[name].load();
+            });
+
             sounds.forEach(name => {
                 const card = document.createElement("div");
                 card.className = "sound-card";
@@ -127,14 +134,18 @@
                 btn.className = "btn-play";
                 btn.innerText = "Play ▶";
 
-                let audio = null;
                 btn.addEventListener("click", () => {
-                    if (!audio) {
-                        audio = new Audio(`sounds/${name}`);
-                    }
+                    const audio = audioObjects[name];
+                    // Pause any other playing sounds
+                    Object.values(audioObjects).forEach(a => {
+                        if (a !== audio) {
+                            a.pause();
+                        }
+                    });
+                    
                     audio.currentTime = 0;
                     audio.play().catch(err => {
-                        alert("Please interact with the page first before playing sound.");
+                        console.warn("Autoplay block:", err);
                     });
                 });
 
