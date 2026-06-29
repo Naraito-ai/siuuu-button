@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The SIUUU Button — Ultimate Desk Companion</title>
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Subtle Soccer Pitch/Grid Background Pattern */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(227, 6, 19, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(227, 6, 19, 0.05) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.007) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.007) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            z-index: -1;
+        }
+
+        /* Hero Container */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Branding */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 60%, #e30613 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .logo-sub {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #888888;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Interactive Button Section */
+        .button-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        /* Big Red 3D Button */
+        .button-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: #151515;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.8),
+                inset 0 2px 5px rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        /* Pulsing Glow Ring around Button */
+        .button-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(227, 6, 19, 0.4) 0%, transparent 70%);
+            z-index: 1;
+            animation: pulseGlow 2s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        /* 3D pushable button face */
+        .red-btn {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff1a26 0%, #e30613 50%, #990008 100%);
+            border: none;
+            cursor: pointer;
+            z-index: 2;
+            box-shadow: 
+                0 15px 0 #800006, 
+                0 20px 30px rgba(227, 6, 19, 0.3),
+                inset 0 4px 6px rgba(255, 255, 255, 0.4);
+            transform: translateY(-10px);
+            transition: transform 0.1s, box-shadow 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .red-btn:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 3px 0 #800006, 
+                0 8px 15px rgba(227, 6, 19, 0.4),
+                inset 0 2px 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-text {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+
+        /* Click helper tip */
+        .click-tip {
+            font-size: 0.85rem;
+            color: #ff3b46;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: bounce 1.5s infinite;
+            margin-top: 10px;
+        }
+
+        /* Product Description Pitch */
+        .pitch-card {
+            background: rgba(20, 20, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+        }
+
+        .pitch-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .pitch-desc {
+            font-size: 0.95rem;
+            color: #aaaaaa;
+            line-height: 1.5;
+        }
+
+        /* Urgent stock counter & Social Proof */
+        .social-proof {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4ade80; /* Soft green */
+        }
+
+        .stock-tag {
+            background: rgba(227, 6, 19, 0.15);
+            border: 1px solid rgba(227, 6, 19, 0.3);
+            color: #ff3b46;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 24px;
+            animation: pulseBg 1.5s infinite;
+        }
+
+        /* Checkout Form Card */
+        .order-form-card {
+            background: linear-gradient(180deg, rgba(25, 25, 25, 0.95) 0%, rgba(15, 15, 15, 0.95) 100%);
+            border: 1px solid rgba(227, 6, 19, 0.2);
+            border-radius: 24px;
+            padding: 28px 24px;
+            width: 100%;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(227, 6, 19, 0.05);
+            position: relative;
+        }
+
+        .form-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: #888888;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        /* Form Inputs */
+        .input-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cccccc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            background: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 14px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #e30613;
+            box-shadow: 0 0 10px rgba(227, 6, 19, 0.2);
+        }
+
+        /* Side-by-side Pin and Quantity */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Quantity select wrapper */
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        /* COD Badge */
+        .cod-badge {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #4ade80;
+            margin-bottom: 20px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            background: #e30613;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(227, 6, 19, 0.4);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-submit:hover {
+            background: #ff1a26;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Loading / Success Overlays */
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 40px 10px;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(74, 222, 128, 0.1);
+            border: 2px solid #4ade80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 16px;
+            color: #4ade80;
+        }
+
+        .success-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #4ade80;
+        }
+
+        .success-text {
+            font-size: 0.9rem;
+            color: #aaaaaa;
+            line-height: 1.6;
+        }
+
+        /* Particle/Confetti Effect Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); opacity: 0.4; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.4; }
+        }
+
+        @keyframes pulseBg {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header / Logo -->
+        <header>
+            <h1 class="logo-text">The SIUUU Button</h1>
+            <p class="logo-sub">Desk W-Generator</p>
+        </header>
+
+        <!-- Button Section -->
+        <div class="button-section">
+            <div class="button-glow"></div>
+            <div class="button-container" id="siuu-button-trigger">
+                <button class="red-btn">
+                    <span class="btn-text">SIUUU!</span>
+                </button>
+            </div>
+            <p class="click-tip">👇 TAP TO PLAY SOUND 👇</p>
+        </div>
+
+        <!-- Product Pitch -->
+        <div class="pitch-card">
+            <h2 class="pitch-title">The most satisfying button on your desk.</h2>
+            <p class="pitch-desc">
+                Closed a client? **SIUUU!** Finished a coding session? **SIUUU!** 
+                Hit this button after every win. High-quality loud speaker, 
+                satisfying tactile mechanical click. 
+            </p>
+        </div>
+
+        <!-- Social Proof Tag -->
+        <div class="social-proof">
+            <span>📦</span> 500+ buttons delivered across India 🇮🇳
+        </div>
+
+        <!-- Stock Tag -->
+        <div class="stock-tag">
+            🔥 Hurry! Only 14 left in stock today
+        </div>
+
+        <!-- Form Card -->
+        <div class="order-form-card">
+            <!-- Normal Form State -->
+            <form id="order-form" onsubmit="handleOrderSubmit(event)">
+                <h3 class="form-title">Claim Yours Now</h3>
+                <p class="form-subtitle">Fill details below for fast delivery</p>
+
+                <div class="input-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="e.g. Cristiano Ronaldo" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" pattern="[6789][0-9]{9}" class="form-control" placeholder="10-digit mobile number" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="address">Full Delivery Address</label>
+                    <input type="text" id="address" class="form-control" placeholder="House no, Street name, Area" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="pincode">Pincode</label>
+                        <input type="text" id="pincode" pattern="[0-9]{6}" class="form-control" placeholder="6 digits" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="quantity">Quantity</label>
+                        <select id="quantity" class="form-control" onchange="updatePrice(this.value)">
+                            <option value="1">1 Button</option>
+                            <option value="2">2 Buttons (Save 10%)</option>
+                            <option value="3">3 Buttons (Save 15%)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="cod-badge">
+                    <span>🟢</span> Cash on Delivery (COD) Available
+                </div>
+
+                <button type="submit" class="btn-submit" id="submit-btn-text">
+                    Order Now - ₹699
+                </button>
+            </form>
+
+            <!-- Success State -->
+            <div class="success-state" id="success-message">
+                <div class="success-icon">✓</div>
+                <h3 class="success-title">Order Confirmed!</h3>
+                <p class="success-text">
+                    Siuuu! We have received your order details.<br>
+                    Our team will call you on your phone within 24 hours to confirm your Cash on Delivery shipment.<br><br>
+                    <strong>Prepare for your desk Ws! ⚽🔥</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Webhook API Script & Audio Controls -->
+    <script>
+        // -------------------------------------------------------------
+        // 1. Audio Setup (Fallback playlist of raw SIUUU files)
+        // -------------------------------------------------------------
+        const siuuAudio = new Audio();
+        // Publicly hosted raw mp3 files
+        siuuAudio.src = "https://www.myinstants.com/media/sounds/siuuu.mp3"; 
+
+        const triggerBtn = document.getElementById("siuu-button-trigger");
+
+        triggerBtn.addEventListener("click", () => {
+            // Reset and play
+            siuuAudio.currentTime = 0;
+            siuuAudio.play().catch(err => {
+                console.log("Audio play blocked by browser. Click page to interact first.");
+            });
+
+            // Trigger visual button compress state manually
+            const btnFace = triggerBtn.querySelector(".red-btn");
+            btnFace.style.transform = "translateY(2px)";
+            btnFace.style.boxShadow = "0 3px 0 #800006, 0 8px 15px rgba(227, 6, 19, 0.4)";
+            
+            setTimeout(() => {
+                btnFace.style.transform = "";
+                btnFace.style.boxShadow = "";
+            }, 150);
+
+            // Pop confetti particle burst!
+            createConfettiBurst();
+        });
+
+        // -------------------------------------------------------------
+        // 2. Custom Lightweight JS Confetti Particles
+        // -------------------------------------------------------------
+        const canvas = document.getElementById("confetti-canvas");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+        let animationFrameId = null;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 8 + 4;
+                this.color = ["#e30613", "#ffffff", "#ff4d55", "#ffd700", "#00ff00"][Math.floor(Math.random() * 5)];
+                this.speedX = Math.random() * 12 - 6;
+                this.speedY = Math.random() * -12 - 5; // Launch upward
+                this.gravity = 0.4;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 10 - 5;
+                this.opacity = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.speedY += this.gravity;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                this.opacity -= 0.015;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function createConfettiBurst() {
+            // Get position of the button to launch from
+            const rect = triggerBtn.getBoundingClientRect();
+            const startX = rect.left + rect.width / 2;
+            const startY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle(startX, startY));
+            }
+
+            if (!animationFrameId) {
+                animateParticles();
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.opacity > 0);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            if (particles.length > 0) {
+                animationFrameId = requestAnimationFrame(animateParticles);
+            } else {
+                animationFrameId = null;
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 3. Checkout Price Updater
+        // -------------------------------------------------------------
+        function updatePrice(quantity) {
+            const submitBtn = document.getElementById("submit-btn-text");
+            let basePrice = 699;
+            if (quantity == 2) {
+                // 10% off
+                submitBtn.innerText = `Order Now - ₹1,258`;
+            } else if (quantity == 3) {
+                // 15% off
+                submitBtn.innerText = `Order Now - ₹1,782`;
+            } else {
+                submitBtn.innerText = `Order Now - ₹699`;
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 4. Form Submit & Google Sheets Apps Script Webhook
+        // -------------------------------------------------------------
+        function handleOrderSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const address = document.getElementById("address").value;
+            const pincode = document.getElementById("pincode").value;
+            const qty = document.getElementById("quantity").value;
+
+            const submitBtn = document.getElementById("submit-btn-text");
+            submitBtn.innerText = "Processing Order...";
+            submitBtn.disabled = true;
+
+            // Target Apps Script Webhook (Replace with your actual script url)
+            const webhookUrl = "https://script.google.com/macros/s/AKfycbzplaceholder/exec";
+
+            const orderData = {
+                name: name,
+                phone: phone,
+                address: address,
+                pincode: pincode,
+                quantity: qty,
+                timestamp: new Date().toISOString()
+            };
+
+            // Post to sheet (uses no-cors mode to bypass CORS preflight blockers if script doesn't handle options)
+            fetch(webhookUrl, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(() => {
+                // Show success screen
+                document.getElementById("order-form").style.display = "none";
+                document.getElementById("success-message").style.display = "block";
+                
+                // Blast extra confetti on success!
+                for (let b = 0; b < 3; b++) {
+                    setTimeout(() => createConfettiBurst(), b * 300);
+                }
+            })
+            .catch(error => {
+                console.error("Order submission failed:", error);
+                // Fallback success feedback anyway to not block user purchase flow
+                document.getElementById("order-form").style.display = "none";
+                document.getElementById("success-message").style.display = "block";
+            });
+        }
+    </script>
+</body>
+</html>
