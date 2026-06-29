@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siuuu Sound Selector & Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0c0c0c;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 50%, #e30613 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            color: #888;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 500px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .sound-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            width: 100%;
+            max-width: 480px;
+        }
+        .sound-card {
+            background: #161616;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        .sound-card:hover {
+            border-color: #e30613;
+            background: #1b1b1b;
+        }
+        .sound-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sound-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #fff;
+            text-transform: capitalize;
+        }
+        .sound-meta {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .btn-play {
+            background: #e30613;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-play:hover {
+            background: #ff1a26;
+        }
+        .btn-play:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SIUUU Sound Selector</h1>
+    <p>
+        I have downloaded 13 different variations of the Ronaldo celebration. 
+        Click the play buttons below to test each sound. Tell me **which file name** is the loudest/best, and I will set it as the default for your page!
+    </p>
+
+    <div class="sound-grid">
+        <script>
+            const sounds = [
+                "siuuu.mp3", "siu.mp3", "siuuuu.mp3", "siuuuuu.mp3", "siuuuuuu.mp3", 
+                "siuuuuuuuu.mp3", "ronaldo-siuu.mp3", "ronaldo-siuuu.mp3", "ronaldo-siuuuu.mp3", 
+                "suuuu.mp3", "suuuuu.mp3", "suuuuuu.mp3", "suuuuuuu.mp3"
+            ];
+
+            const grid = document.querySelector(".sound-grid");
+
+            sounds.forEach(name => {
+                const card = document.createElement("div");
+                card.className = "sound-card";
+
+                const info = document.createElement("div");
+                info.className = "sound-info";
+
+                const title = document.createElement("div");
+                title.className = "sound-name";
+                title.innerText = name.replace(".mp3", "").replace(/-/g, " ");
+
+                const meta = document.createElement("div");
+                meta.className = "sound-meta";
+                meta.innerText = `File: ${name}`;
+
+                info.appendChild(title);
+                info.appendChild(meta);
+
+                const btn = document.createElement("button");
+                btn.className = "btn-play";
+                btn.innerText = "Play ▶";
+
+                let audio = null;
+                btn.addEventListener("click", () => {
+                    if (!audio) {
+                        audio = new Audio(`sounds/${name}`);
+                    }
+                    audio.currentTime = 0;
+                    audio.play().catch(err => {
+                        alert("Please interact with the page first before playing sound.");
+                    });
+                });
+
+                card.appendChild(info);
+                card.appendChild(btn);
+                grid.appendChild(card);
+            });
+        </script>
+    </div>
+
+</body>
+</html>
