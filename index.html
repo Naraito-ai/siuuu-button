@@ -513,15 +513,38 @@
     <!-- Webhook API Script & Audio Controls -->
     <script>
         // -------------------------------------------------------------
-        // 1. Audio Setup (Fallback playlist of raw SIUUU files)
+        // 1. Audio Setup
         // -------------------------------------------------------------
         const siuuAudio = new Audio();
-        // Publicly hosted raw mp3 files
-        siuuAudio.src = "https://www.myinstants.com/media/sounds/siuuu.mp3"; 
+        // Load the local file
+        siuuAudio.src = "siuu_loud.mp3"; 
 
         const triggerBtn = document.getElementById("siuu-button-trigger");
 
+        // Web Audio API Booster
+        let audioCtx = null;
+        let gainNode = null;
+
+        function initAudioBoost() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioCtx.createMediaElementSource(siuuAudio);
+                gainNode = audioCtx.createGain();
+                gainNode.gain.value = 3.5; // Multiply volume by 3.5x (350% boost)!
+                source.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+            } catch (e) {
+                console.warn("Web Audio API not supported:", e);
+            }
+        }
+
         triggerBtn.addEventListener("click", () => {
+            initAudioBoost();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
             // Reset and play
             siuuAudio.currentTime = 0;
             siuuAudio.play().catch(err => {
